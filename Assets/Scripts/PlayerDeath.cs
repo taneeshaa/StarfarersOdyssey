@@ -5,65 +5,52 @@ using UnityEngine.SceneManagement;
 
 public class PlayerDeath : MonoBehaviour
 {
-
-    public int maxHealth = 100;
-    public int currentHealth;
+    private PlayerHealth PlayerHealth;
 
     private Rigidbody2D rb;
     private Animator anim;
-    [SerializeField] private AudioSource deathSoundEffect;    
+    [SerializeField] private AudioSource deathSoundEffect;
+    [SerializeField] private AudioSource hurtSoundEffect;
+
 
     private void Start()
     {
-        //currentHealth = maxHealth;
-        //healthbar.SetMaxHealth(maxHealth);
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        PlayerHealth = GetComponent<PlayerHealth>();
     }
-
-    private void Update()
-    {
-        /*if (Input.GetKeyDown(KeyCode.E))
-        {
-            TakeDamage(20);
-
-
-        }*/
-    }
-
     
-    /*public void TakeDamage(int damage)
+    private void TakeDamage(int damage)
     {
-        if (currentHealth <= 0)
+        if (PlayerHealth.currentHealth <= 0)
         {
-            rb.bodyType = RigidbodyType2D.Static;
-            anim.SetTrigger("death");
+            Die();
+            
         }
 
         else
         {
-            Die();
+            PlayerHealth.currentHealth -= damage;
+            PlayerHealth.healthbar.SetHealth(PlayerHealth.currentHealth);
+            hurtSoundEffect.Play();
         }
-    }*/
+    }
 
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Trap"))
         {
-            //TakeDamage(20);
-            Die();
+            TakeDamage(30);
+            //Die();
+        }
 
+        else if (collision.gameObject.CompareTag("DeathTrap"))
+        {
+            Die();
         }
     }
 
-
-    /*private void Die()
-    {
-        rb.bodyType = RigidbodyType2D.Static;
-        anim.SetTrigger("death");
-
-    }*/
     private void Die()
     {
         deathSoundEffect.Play();

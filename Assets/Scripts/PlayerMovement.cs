@@ -1,5 +1,4 @@
  using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -21,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private AudioSource jumpSoundEffect;
     [SerializeField] private AudioSource collectSoundEffect;
+
+    private bool m_FacingRight = true;
 
     private void Start()
     {
@@ -60,15 +61,27 @@ public class PlayerMovement : MonoBehaviour
 
         // Debug.Log(rb.velocity.y);
 
-        if (dirX > 0)
+        if (dirX > 0 && !m_FacingRight)
         {
+            Flip();
             state = MovementState.running;
-            sprite.flipX = false;
+            //sprite.flipX = false;
+            
         }
-        else if (dirX < 0)
+        else if (dirX < 0 && m_FacingRight)
+        {
+            Flip();
+            state = MovementState.running;
+            //sprite.flipX = true;
+            
+        }
+        else if (dirX > 0)
         {
             state = MovementState.running;
-            sprite.flipX = true;
+        }
+        else if(dirX < 0)
+        {
+            state = MovementState.running;
         }
         else
         {
@@ -122,9 +135,14 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator ResetPower()
     {
         yield return new WaitForSeconds(5);
-        moveSpeed = 7f;
+        moveSpeed = 7f; 
         jumpForce = 14f;
         GetComponent<SpriteRenderer>().material.color = Color.white;
     }
 
+    private void Flip() 
+    {
+        m_FacingRight = !m_FacingRight;
+        rb.transform.Rotate(0, 180, 0);
+    }
 }

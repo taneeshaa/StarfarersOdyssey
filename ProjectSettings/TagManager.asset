@@ -9,6 +9,7 @@ TagManager:
   - SpeedBoost
   - JumpBoost
   - Enemy
+  - DeathTrap
   layers:
   - Default
   - TransparentFX

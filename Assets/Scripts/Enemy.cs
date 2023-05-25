@@ -5,7 +5,9 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Animator anim;
-    [SerializeField] private int maxHealth = 5000;
+    [SerializeField] private int maxHealth = 20;
+    [SerializeField] private AudioSource EnemyDeath;
+    [SerializeField] private AudioSource EnemyHurt;
     private int currentHealth;
     // Start is called before the first frame update
     void Start()
@@ -19,19 +21,21 @@ public class Enemy : MonoBehaviour
 
         //hurt animation
         anim.SetTrigger("hurt");
-
         if(currentHealth <= 0)
         {
             Die();
+        }
+        else
+        {
+            EnemyHurt.Play();
         }
     }
 
     private void Die()
     {
-        Debug.Log("Enemy Died");
         //die animation
         anim.SetBool("isDead", true);
-
+        EnemyDeath.Play();
         //diable the enemy
         GetComponent<BoxCollider2D>().enabled = false;
         GetComponent<EnemyMovement>().enabled = false;

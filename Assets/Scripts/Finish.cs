@@ -5,12 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class Finish : MonoBehaviour
 {
-    private AudioSource finishSound;
+    [SerializeField] private AudioSource finishSound;
     private bool levelCompleted = false;
-    private void Start()
-    {
-        finishSound = GetComponent<AudioSource>();
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

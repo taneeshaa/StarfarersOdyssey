@@ -9,38 +9,15 @@ public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 100;
     public int currentHealth;
+    [SerializeField] private AudioSource deathSoundEffect;
 
-    public Rigidbody2D rb;
-    public Animator anim;
+    private Rigidbody2D rb;
+    private Animator anim;
     public Healthbar healthbar;
 
     private void Start()
     {
         currentHealth = maxHealth;
         healthbar.SetMaxHealth(maxHealth);
-    }
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.E))
-        {
-            TakeDamage(20);
-            
-        }
-    }
-
-    public void TakeDamage(int damage)
-    {
-        if(currentHealth <= 0)
-        {
-            rb.bodyType = RigidbodyType2D.Static;
-            anim.SetTrigger("death");
-        }
-
-        else
-        {
-            currentHealth -= damage;
-            healthbar.SetHealth(currentHealth);
-        }
     }
 }
